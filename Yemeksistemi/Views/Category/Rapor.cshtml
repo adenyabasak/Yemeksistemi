@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Raporlar</h2>
+
+<p>Toplam kategori: @ViewBag.TotalCategory</p>
+<p>En uzun kategori: @ViewBag.LongestCategory</p>
+<p>A ile başlayan kategori sayısı: @ViewBag.ACount</p>
+
+<hr />
+
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+   
+    <div style="flex:1; min-width:300px;">
+        <h3>Kategori Dağılımı</h3>
+        <canvas id="chart1"></canvas>
+    </div>
+
+    <div style="flex:1; min-width:300px;">
+        <h3>Rapor Grafiği</h3>
+        <canvas id="chart2"></canvas>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var kategoriAdlari = [];
+
+    @foreach (var item in ViewBag.Kategoriler)
+    {
+        <text>kategoriAdlari.push("@item.CategoryName");</text>
+    }
+
+    
+    new Chart(document.getElementById('chart1'), {
+    type: 'pie',
+    data: {
+    labels: kategoriAdlari,
+    datasets: [{
+    data: kategoriAdlari.map(() => 1)
+    }]
+    }
+    });
+
+   
+    new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+    labels: kategoriAdlari,
+    datasets: [{
+    label: "Kategori Sayısı",
+    data: kategoriAdlari.map(() => 1)
+    }]
+    }
+    });
+</script>
+<h3>Kategoriye göre yemek sayısı</h3>
+
+@foreach (var item in ViewBag.GroupKategori)
+{
+    <p>@item.Kategori - @item.Adet</p>
+}
+
+<h3>Kategori + Yemek</h3>
+
+@foreach (var item in ViewBag.JoinData)
+{
+    <p>@item.Kategori - @item.Yemek</p>
+}

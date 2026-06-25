@@ -1,0 +1,37 @@
+﻿@model Yemeksistemi.Models.Recipe
+
+<h2>Yemek Ekle</h2>
+
+<form method="post">
+
+    <label>Yemek Adı</label>
+    <input type="text" name="RecipeName" class="form-control" />
+
+    <br />
+
+    <label>Açıklama</label>
+    <textarea name="Description" class="form-control"></textarea>
+
+    <br />
+
+    <label>Resim URL</label>
+    <input type="text" name="ImageUrl" class="form-control" />
+
+    <br />
+
+    <label>Kategori</label>
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        @* <input asp-for="TurNo" class="form-control" />
+                <span asp-validation-for="TurNo" class="text-danger"></span> *@
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.RecipeId"></select>
+
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">
+        Kaydet
+    </button>
+
+</form>

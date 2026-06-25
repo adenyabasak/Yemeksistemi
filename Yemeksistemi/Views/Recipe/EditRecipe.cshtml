@@ -1,0 +1,44 @@
+﻿@model Yemeksistemi.Models.Recipe
+
+<h2>Yemek Güncelle</h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="RecipeId" />
+
+    <label>Yemek Adı</label>
+    <input type="text" asp-for="RecipeName" class="form-control" />
+
+    <br />
+
+    <label>Açıklama</label>
+    <textarea asp-for="Description" class="form-control"></textarea>
+
+    <br />
+
+    <label>Resim</label>
+    <input type="text" asp-for="ImageUrl" class="form-control" />
+
+    <br />
+
+    <!-- ⭐ BURASI EKLENDİ -->
+    <label>Kategori</label>
+
+    <select asp-for="CategoryId" class="form-control">
+        <option value="">Kategori seç</option>
+
+        @foreach (var item in ViewBag.Categories)
+        {
+            <option value="@item.CategoryId">
+                @item.Name
+            </option>
+        }
+    </select>
+
+    <br />
+
+    <button class="btn btn-warning">
+        Güncelle
+    </button>
+
+</form>

@@ -1,0 +1,37 @@
+﻿@model List<Yemeksistemi.Models.Recipe>
+
+<h2>Yemek Listesi</h2>
+
+<a href="/Recipe/AddRecipe" class="btn btn-success">
+    Yeni Yemek Ekle
+</a>
+
+<table class="table table-bordered">
+
+<tr>
+    <th>ID</th>
+    <th>Ad</th>
+    <th>İşlemler</th>
+</tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.RecipeId</td>
+        <td>@item.RecipeName</td>
+
+        <td>
+            <a href="/Recipe/EditRecipe/@item.RecipeId"
+               class="btn btn-primary">
+                Düzenle
+            </a>
+
+            <a href="/Recipe/DeleteRecipe/@item.RecipeId"
+               class="btn btn-danger">
+                Sil
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
