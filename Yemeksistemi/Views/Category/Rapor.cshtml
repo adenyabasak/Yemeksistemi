@@ -2,26 +2,77 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Raporlar</h2>
+<div class="container-fluid">
 
-<p>Toplam kategori: @ViewBag.TotalCategory</p>
-<p>En uzun kategori: @ViewBag.LongestCategory</p>
-<p>A ile başlayan kategori sayısı: @ViewBag.ACount</p>
+    <h1 class="h3 mb-4 text-gray-800">Raporlar</h1>
 
-<hr />
+    <div class="row">
 
+        <div class="col-md-4 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Toplam Kategori
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        @ViewBag.TotalCategory
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div style="display:flex; gap:20px; flex-wrap:wrap;">
+        <div class="col-md-4 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        En Uzun Kategori
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        @ViewBag.LongestCategory
+                    </div>
+                </div>
+            </div>
+        </div>
 
-   
-    <div style="flex:1; min-width:300px;">
-        <h3>Kategori Dağılımı</h3>
-        <canvas id="chart1"></canvas>
+        <div class="col-md-4 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        A ile Başlayan Kategori
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        @ViewBag.ACount
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div style="flex:1; min-width:300px;">
-        <h3>Rapor Grafiği</h3>
-        <canvas id="chart2"></canvas>
+    <div class="row">
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Kategori Dağılımı</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="pieChart" style="height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Kategori Grafiği</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="barChart" style="height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -29,46 +80,45 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    var kategoriAdlari = [];
-
+    var kategoriAdlari = [
     @foreach (var item in ViewBag.Kategoriler)
     {
-        <text>kategoriAdlari.push("@item.CategoryName");</text>
+        @Html.Raw("'" + item.CategoryName + "',")
     }
+    ];
 
-    
-    new Chart(document.getElementById('chart1'), {
-    type: 'pie',
+    var kategoriSayilari = [
+    @foreach (var item in ViewBag.Kategoriler)
+    {
+        @Html.Raw("1,")
+    }
+    ];
+
+    new Chart(document.getElementById("pieChart"), {
+    type: "pie",
     data: {
     labels: kategoriAdlari,
     datasets: [{
-    data: kategoriAdlari.map(() => 1)
+    data: kategoriSayilari
     }]
     }
     });
 
-   
-    new Chart(document.getElementById('chart2'), {
-    type: 'bar',
+    new Chart(document.getElementById("barChart"), {
+    type: "bar",
     data: {
     labels: kategoriAdlari,
     datasets: [{
     label: "Kategori Sayısı",
-    data: kategoriAdlari.map(() => 1)
+    data: kategoriSayilari
     }]
+    },
+    options: {
+    scales: {
+    y: {
+    beginAtZero: true
+    }
+    }
     }
     });
 </script>
-<h3>Kategoriye göre yemek sayısı</h3>
-
-@foreach (var item in ViewBag.GroupKategori)
-{
-    <p>@item.Kategori - @item.Adet</p>
-}
-
-<h3>Kategori + Yemek</h3>
-
-@foreach (var item in ViewBag.JoinData)
-{
-    <p>@item.Kategori - @item.Yemek</p>
-}

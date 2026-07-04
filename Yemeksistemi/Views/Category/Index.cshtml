@@ -1,6 +1,7 @@
 ﻿@model List<Yemeksistemi.Models.Category>
 
 @{
+    ViewData["Title"] = "Kategoriler";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -8,17 +9,23 @@
 
     <h1 class="h3 mb-4 text-gray-800">Kategoriler</h1>
 
-    <form method="get">
-        <input type="text" name="p" placeholder="Kategori ara..." />
-        <button class="btn btn-primary btn-sm">Ara</button>
+    <form method="get" asp-action="Index">
+        <div class="input-group mb-3" style="max-width:400px;">
+            <input type="text" name="p" class="form-control" placeholder="Kategori ara..." />
+            <button class="btn btn-primary" type="submit">Ara</button>
+        </div>
     </form>
-
-    <br />
 
     <a href="/Category/AddCategory" class="btn btn-primary mb-3">
         + Yeni Kategori
     </a>
+    <a href="/Category/ExportExcel" class="btn btn-success mb-3">
+        Excel İndir
+    </a>
 
+    <a href="/Category/ExportPdf" class="btn btn-danger mb-3">
+        PDF İndir
+    </a>
     <div class="card shadow mb-4">
 
         <div class="card-header py-3">
@@ -31,16 +38,18 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover">
+
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Kategori Adı</th>
-                            <th>İşlemler</th>
+                            <th width="180">İşlemler</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -54,14 +63,16 @@
                                         Sil
                                     </a>
 
-                                    <a href="@Url.Action("EditCategory", "Category", new { id = item.CategoryId })"
+                                    <a href="/Category/EditCategory/@item.CategoryId"
                                        class="btn btn-warning btn-sm">
                                         Güncelle
                                     </a>
 
                                 </td>
+
                             </tr>
                         }
+
                     </tbody>
 
                 </table>
@@ -73,5 +84,3 @@
     </div>
 
 </div>
-
-<p style="color:red;">TEST: @Model.Count</p>

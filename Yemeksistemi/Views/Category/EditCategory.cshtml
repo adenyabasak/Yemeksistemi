@@ -1,16 +1,39 @@
 ﻿@model Yemeksistemi.Models.Category
 
-<h2>Kategori Güncelle</h2>
+@{
+    ViewData["Title"] = "Kategori Güncelle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
-<form method="post">
+<div class="container-fluid">
 
-    <input type="hidden" asp-for="CategoryId" />
+    <h1 class="h3 mb-4 text-gray-800">Kategori Güncelle</h1>
 
-    <label>Kategori Adı</label>
-    <input type="text" asp-for="CategoryName" class="form-control" />
+    <div class="card shadow mb-4">
 
-    <br />
+        <div class="card-body">
 
-    <button class="btn btn-warning">Güncelle</button>
+            <form asp-action="EditCategory" method="post">
 
-</form>
+                <input asp-for="CategoryId" type="hidden" />
+
+                <div class="mb-3">
+                    <label asp-for="CategoryName" class="form-label">Kategori Adı</label>
+                    <input asp-for="CategoryName" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-warning">
+                    Güncelle
+                </button>
+
+                <a href="/Category/Index" class="btn btn-secondary">
+                    İptal
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
